@@ -10,7 +10,7 @@
     
     
     
-    <title>博客建立第一天 | 狂奔的泰迪熊</title>
+    <title>superset二次开发总结 | 狂奔的泰迪熊</title>
     <!-- inject:style -->
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
@@ -162,42 +162,92 @@
                             <div class="cube-content">
                                 <div class="cube-left">
                                     <div class="cube-article">
-    <h1 class="title">博客建立第一天</h1>
+    <h1 class="title">superset二次开发总结</h1>
     
     <div class="cube-article-header">
         <div class="cube-article-date">
             <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
             <!-- moment.js对象 -->
-            2018-06-26
+            2018-06-28
         </div>
         <div class="cube-article-tags">
     <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
     
-    <a href="/tags/心情/">#心情</a>
+    <a href="/tags/js/">#js</a>
+    
+    <a href="/tags/superset/">#superset</a>
+    
+    <a href="/tags/python/">#python</a>
+    
+    <a href="/tags/flask/">#flask</a>
     
 </div>
     </div>
     
     <div class="cube-article-content cube-markdown">
         
-        <h3 id="经过一系列的折腾，终于把自己的博客推上了线-后面还有绑定域名购买云服务器，不过现在暂时在github上用着！"><a href="#经过一系列的折腾，终于把自己的博客推上了线-后面还有绑定域名购买云服务器，不过现在暂时在github上用着！" class="headerlink" title="经过一系列的折腾，终于把自己的博客推上了线 后面还有绑定域名购买云服务器，不过现在暂时在github上用着！"></a>经过一系列的折腾，终于把自己的博客推上了线 后面还有绑定域名购买云服务器，不过现在暂时在github上用着！</h3>
+        <h2 id="superset二次开发总结：未完待续…"><a href="#superset二次开发总结：未完待续…" class="headerlink" title="superset二次开发总结：未完待续…."></a>superset二次开发总结：未完待续….</h2><h3 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h3><p>开发心得：<br>    superset是基于flask开发的一套可视化模板，好处：1.快速生成图表，2.集成了多种数据库环境，相对于复杂的图表展示来说可谓是利器,刚开始接到这个superset的时候一脸懵逼，都**的python文件？喂，我不会啊！抱怨可以有，但毛用没有，做还是得做的。哭…. superset中有很多文件相互调用，缕清相互的关系是需要费相当的精力和时间。我太菜了，我硬是看了三四天才在第五天完全看明白。哇，真的菜~~~~ 我总结一下我踩的坑 ，希望可以给你们一些帮助</p>
+<h2 id="python服务器启动"><a href="#python服务器启动" class="headerlink" title="python服务器启动"></a>python服务器启动</h2><pre><code>路径:
+    cd F:\Anaconda\Lib\site-packages\superset\bin&gt;
+命令：
+    python superset runserver -d 
+</code></pre><h3 id="修改文案-汉化"><a href="#修改文案-汉化" class="headerlink" title="修改文案 汉化"></a>修改文案 汉化</h3><pre><code>执行路径： 
+    /superset/transitions
+作用： 
+    .po文件转.json文件
+命令：
+    pybabel compile -d translations
+</code></pre><h3 id="本地静态目录"><a href="#本地静态目录" class="headerlink" title="本地静态目录"></a>本地静态目录</h3><pre><code>/static
+    ---src                          //业务组件
+    ---stylesheets                  //样式文件（需要注意的两个文件）
+        --less
+            --cosmo
+                --bootswatch.less   // 修改样式的地方
+        --superset.less             //  修改全局样式的地方
+
+
+注意： 本地安装开发环境的时候，react版本最好不要升级,坑也挺多,就按照他的版本来.
+       如果你非要升级的话，有几点需要提醒你：
+
+        1. prop-types 会提示相关报错, 问题在于react版本。@15和@16版本中prop-types的差异,升级的react版本到@16.**的注意一下
+
+        2.会提示Cannot find module &apos;react/lib/*****&apos;等未知模块,想要好办法？二话不说丢给你一个网站  https://www.jianshu.com/p/43b7db635f8c 按步骤运行！
+
+        3.想找react-router? 找不到的，他压根就不是spa, 虽然在react写的 （此时劝诫自己要压住怒火）提示： superset/views/core.py   // 模块注册和页面跳转
+</code></pre><h3 id="模板引擎"><a href="#模板引擎" class="headerlink" title="模板引擎"></a>模板引擎</h3><pre><code>superset/templates
+
+flash_appbuilder/templates
+
+注：如果这里模板调用找不到的话 在和superset同级的flash_appbuilder/templates里面找，
+    这两个文件夹是可以相互调用的.（千万注意，这是一个坑~坑死我了~~~） 
+    两个模板有很多不起作用的模板，不知道为什么要留在里面，增加了很多不必要的难度
+</code></pre><h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><pre><code>/views
+    ---core.py  
+        class    // 创建视图对象，
+        appbuilder.add_view(   // 注册路由文件    
+                    视图对象，
+                    mtrid, 
+                    msgstr, 
+                    图标，...  
+                )  
+        appbuilder.add_link(    //添加子路由
+                    mtrid       //字符串id 
+                    label       //名称
+                    href        // 跳转路径
+                    category    // 属于哪个类目
+                    category_label  // 类目名称
+        )
+</code></pre>
     </div>
 </div>
 
 <div class="cube-article-nav">
     <ul>
         
-        <li class="prev">
-            <a href="/2018/06/28/superset二次开发总结/">
-                <i class="cube-icon cube-prev" aria-hidden="true"></i>
-                superset二次开发总结
-            </a>
-        </li>
-        
         
         <li class="next">
-            <a href="/2018/06/15/flatten函数/">
-                flatten函数
+            <a href="/2018/06/26/博客建立第一天/">
+                博客建立第一天
                 <i class="cube-icon cube-next" aria-hidden="true"></i>
             </a>
         </li>
