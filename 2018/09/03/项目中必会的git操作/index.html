@@ -10,7 +10,7 @@
     
     
     
-    <title>flatten函数 | 狂奔的泰迪熊</title>
+    <title>项目中必会的git操作 | 狂奔的泰迪熊</title>
     <!-- inject:style -->
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
@@ -157,25 +157,146 @@
                             <div class="cube-content">
                                 <div class="cube-left">
                                     <div class="cube-article">
-    <h1 class="title">flatten函数</h1>
+    <h1 class="title">项目中必会的git操作</h1>
     
     <div class="cube-article-header">
         <div class="cube-article-date">
             <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
             <!-- moment.js对象 -->
-            2018-06-15
+            2018-09-03
         </div>
         <div class="cube-article-tags">
     <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
     
-    <a href="/tags/js/">#js</a>
+    <a href="/tags/git/">#git</a>
+    
+    <a href="/tags/团队协作/">#团队协作</a>
     
 </div>
     </div>
     
     <div class="cube-article-content cube-markdown">
         
-        <h3 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// shallow 是否只压缩一层数组 // strict  是否去除参数只留下数组参数 【【1,2】， 【3,4】】</span></span><br><span class="line"><span class="keyword">var</span> flatten2 = <span class="function"><span class="keyword">function</span> (<span class="params">input, shallow, strict, output</span>) </span>&#123;</span><br><span class="line">			output = output || [];</span><br><span class="line">			<span class="keyword">var</span> idx = output.length;</span><br><span class="line">			<span class="keyword">var</span> isArguments = <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123; <span class="comment">// 判断是不是函数传进来的参数 // callee arguments特有</span></span><br><span class="line">				<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">				  <span class="keyword">return</span> obj !== <span class="literal">null</span> &amp;&amp; hasProperty.call(obj, <span class="string">'callee'</span>)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, length = input.length; i &lt; length; i++) &#123;</span><br><span class="line">				<span class="keyword">var</span> value = input[i]</span><br><span class="line">				<span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value) &amp;&amp; (<span class="built_in">Array</span>.isArray(value) &amp;&amp; isArguments(value))) &#123;</span><br><span class="line">					<span class="keyword">if</span> (shallow) &#123;  <span class="comment">// 只压缩一层</span></span><br><span class="line">					  <span class="keyword">var</span> j, len = value.length;</span><br><span class="line">					  <span class="keyword">while</span> (j &lt; len) output[idx++] = value[j++];</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					  flatten2(value, shallow, strict, output); <span class="comment">// 否则就重复调用flatten函数</span></span><br><span class="line">					  idx = output.length; <span class="comment">// 当重复调函数，output数组就要扩大，这一步是要扩充数组，吧idx基数设置为output长度</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (!strict) &#123; <span class="comment">// 去除非数组元素</span></span><br><span class="line">				  output[idx++] = value</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> output</span><br><span class="line">		&#125;</span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]]) <span class="comment">// [1, 2, 3, 4, 5, 7, 0, 10]</span></span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]], <span class="literal">true</span>) <span class="comment">//   [1, 2, 3, 4, 5, [7, [0, [10]]]</span></span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]], <span class="literal">true</span>, <span class="literal">true</span>) <span class="comment">// [5, [7, [0, [10]]]</span></span><br></pre></td></tr></table></figure>
+        <p>不管是大项目还是小项目，项目托管已经是必要的掌握技能。现在总结一下平时遇到的那些git命令</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h3><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍:"></a>介绍:</h2><pre><code>1. 初始化仓库
+
+    个人仓库
+
+    fork的仓库
+
+
+2. 代码更新、提交、合并
+
+    个人代码更新
+
+    团队代码合并，更新， 提交
+
+
+3. 仓库分支（branch）的使用
+
+    创建分支
+
+    切换分支
+
+    删除分支
+
+    合并分支
+</code></pre><h1 id="初始化仓库"><a href="#初始化仓库" class="headerlink" title="初始化仓库"></a>初始化仓库</h1><p>  一般我们创建一个项目的时候，首先要在自己的gitLab或者github上面 New repositories 一个新的仓库名字 Name</p>
+<pre><code># 个人仓库（最高权限）
+
+    初始化操作三连 唰~唰~唰~
+
+    // 创建一个.git 配置文件夹
+
+        git init 
+
+    // 添加仓库地址信息，你就理解成登录要设置账号密码
+
+        git remote add origin &apos;仓库地址.git&apos;
+
+    // 获取本地更新并上传
+
+        git status 
+
+        git add .
+
+        git commit -m &apos;提交信息&apos;
+
+        git push origin master
+
+
+# fork的仓库
+
+    点击`fork`复制别人的项目到自己的仓库，此时你的项目属于别人项目的`分支`
+</code></pre><h1 id="代码更新、提交、合并"><a href="#代码更新、提交、合并" class="headerlink" title="代码更新、提交、合并"></a>代码更新、提交、合并</h1><h3 id="个人代码更新"><a href="#个人代码更新" class="headerlink" title="个人代码更新"></a>个人代码更新</h3><pre><code>git pull origin &apos;分支名&apos;
+</code></pre><h3 id="团队代码合并、-更新"><a href="#团队代码合并、-更新" class="headerlink" title="团队代码合并、 更新"></a>团队代码合并、 更新</h3><h4 id="假设："><a href="#假设：" class="headerlink" title="假设："></a>假设：</h4><pre><code>团队主仓库主分支 `upstream`
+
+个人仓库主分支 `master`
+</code></pre><h4 id="环境："><a href="#环境：" class="headerlink" title="环境："></a>环境：</h4><pre><code>此时你本地仓库的`master`分支由`upstream`仓库fork出来的。
+</code></pre><h4 id="注册主仓库地址：-需要注册upstream的仓库地址到-git-config中，和注册个人仓库操作类似。"><a href="#注册主仓库地址：-需要注册upstream的仓库地址到-git-config中，和注册个人仓库操作类似。" class="headerlink" title="注册主仓库地址：    需要注册upstream的仓库地址到.git/config中，和注册个人仓库操作类似。"></a>注册主仓库地址：    需要注册<code>upstream</code>的仓库地址到.git/config中，和注册个人仓库操作类似。</h4><pre><code>git remote add `upstream` 分支地址.git 
+</code></pre><h4 id="git-config配置"><a href="#git-config配置" class="headerlink" title=".git/config配置"></a>.git/config配置</h4><pre><code>.git/config配置：
+
+    [core]
+        repositoryformatversion = 0
+        filemode = false
+        bare = false
+        logallrefupdates = true
+        symlinks = false
+        ignorecase = true
+
+    [remote &quot;origin&quot;]
+        url = &apos;本地仓库地址&apos;
+        fetch = +refs/heads/*:refs/remotes/origin/*
+
+    [branch &quot;master&quot;]
+        remote = origin
+        merge = refs/heads/master
+
+    [remote &quot;upstream&quot;]
+        url = &apos;团队仓库地址&apos;
+        fetch = +refs/heads/*:refs/remotes/upstream/*
+</code></pre><h4 id="获取upstream更新"><a href="#获取upstream更新" class="headerlink" title="获取upstream更新"></a>获取<code>upstream</code>更新</h4><pre><code>1. 先在本地仓库创建一个分支，并且换到创建的分支上. 原因是先获取远程更新，然后合并到`master`上
+
+    git branch dev-upstream
+
+    git checkout dev-upstream
+
+2. 获取远程`upstream`更新, 此时的分支正在 `dev-upstream`上，：
+
+    git remote update `upstream`
+</code></pre><h4 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h4><pre><code>3. 合并 `dev-upstream` 更新到 `master` 上 , 此时的 `dev-upstream` 已经获取 `upstream` 更新的内容，：
+
+    git merge dev-upstream/master  或者  git rebase dev-upstream/master
+</code></pre><h4 id="提交到主仓库"><a href="#提交到主仓库" class="headerlink" title="提交到主仓库"></a>提交到主仓库</h4><pre><code>4. 切换到主分支，提交更新至本地仓库
+
+    git branch master
+
+    git status
+
+    git add .
+
+    git commit -m &apos;合并分支&apos;
+
+    git push origin master
+</code></pre><h4 id="Merge给管理员"><a href="#Merge给管理员" class="headerlink" title="Merge给管理员"></a>Merge给管理员</h4><pre><code>5. New Merger 提交到项目管理员
+</code></pre><h1 id="仓库分支（branch）的使用"><a href="#仓库分支（branch）的使用" class="headerlink" title="仓库分支（branch）的使用"></a>仓库分支（branch）的使用</h1><pre><code>创建分支
+
+    git branch &apos;分支名&apos;
+
+切换分支
+
+    git checkout &apos;分支名&apos;
+
+删除分支
+
+    git branch -d &apos;分支名&apos;
+
+合并分支
+
+    git merge(rebase) 分支/目标分支
+</code></pre><h2 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h2><p>这些基本涵盖了常规的git操作， 和团队合作方式的操作。</p>
+<p>当然还有一些仓库的权限操作，生成ssh key 和 更新 ssh的方式。网上有很多就不单独介绍。</p>
+<p>我发现写博客可以让自己的思路更清晰，激发自己的学习积极性。。</p>
 
     </div>
 </div>
@@ -183,17 +304,10 @@
 <div class="cube-article-nav">
     <ul>
         
-        <li class="prev">
-            <a href="/2018/06/26/博客建立第一天/">
-                <i class="cube-icon cube-prev" aria-hidden="true"></i>
-                博客建立第一天
-            </a>
-        </li>
-        
         
         <li class="next">
-            <a href="/2018/06/12/css实现单行截取，多行截取/">
-                css实现单行截取，多行截取
+            <a href="/2018/09/01/基于koa2-mysql进行数据库的增删改查/">
+                基于koa2+mysql进行数据库的增删改查
                 <i class="cube-icon cube-next" aria-hidden="true"></i>
             </a>
         </li>

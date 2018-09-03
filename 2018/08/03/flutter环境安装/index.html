@@ -10,7 +10,7 @@
     
     
     
-    <title>flatten函数 | 狂奔的泰迪熊</title>
+    <title>flutter环境安装 | 狂奔的泰迪熊</title>
     <!-- inject:style -->
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
@@ -157,25 +157,59 @@
                             <div class="cube-content">
                                 <div class="cube-left">
                                     <div class="cube-article">
-    <h1 class="title">flatten函数</h1>
+    <h1 class="title">flutter环境安装</h1>
     
     <div class="cube-article-header">
         <div class="cube-article-date">
             <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
             <!-- moment.js对象 -->
-            2018-06-15
+            2018-08-03
         </div>
         <div class="cube-article-tags">
     <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
     
     <a href="/tags/js/">#js</a>
     
+    <a href="/tags/移动开发/">#移动开发</a>
+    
+    <a href="/tags/混合APP/">#混合APP</a>
+    
 </div>
     </div>
     
     <div class="cube-article-content cube-markdown">
         
-        <h3 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// shallow 是否只压缩一层数组 // strict  是否去除参数只留下数组参数 【【1,2】， 【3,4】】</span></span><br><span class="line"><span class="keyword">var</span> flatten2 = <span class="function"><span class="keyword">function</span> (<span class="params">input, shallow, strict, output</span>) </span>&#123;</span><br><span class="line">			output = output || [];</span><br><span class="line">			<span class="keyword">var</span> idx = output.length;</span><br><span class="line">			<span class="keyword">var</span> isArguments = <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123; <span class="comment">// 判断是不是函数传进来的参数 // callee arguments特有</span></span><br><span class="line">				<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">				  <span class="keyword">return</span> obj !== <span class="literal">null</span> &amp;&amp; hasProperty.call(obj, <span class="string">'callee'</span>)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, length = input.length; i &lt; length; i++) &#123;</span><br><span class="line">				<span class="keyword">var</span> value = input[i]</span><br><span class="line">				<span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value) &amp;&amp; (<span class="built_in">Array</span>.isArray(value) &amp;&amp; isArguments(value))) &#123;</span><br><span class="line">					<span class="keyword">if</span> (shallow) &#123;  <span class="comment">// 只压缩一层</span></span><br><span class="line">					  <span class="keyword">var</span> j, len = value.length;</span><br><span class="line">					  <span class="keyword">while</span> (j &lt; len) output[idx++] = value[j++];</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					  flatten2(value, shallow, strict, output); <span class="comment">// 否则就重复调用flatten函数</span></span><br><span class="line">					  idx = output.length; <span class="comment">// 当重复调函数，output数组就要扩大，这一步是要扩充数组，吧idx基数设置为output长度</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (!strict) &#123; <span class="comment">// 去除非数组元素</span></span><br><span class="line">				  output[idx++] = value</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> output</span><br><span class="line">		&#125;</span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]]) <span class="comment">// [1, 2, 3, 4, 5, 7, 0, 10]</span></span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]], <span class="literal">true</span>) <span class="comment">//   [1, 2, 3, 4, 5, [7, [0, [10]]]</span></span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]], <span class="literal">true</span>, <span class="literal">true</span>) <span class="comment">// [5, [7, [0, [10]]]</span></span><br></pre></td></tr></table></figure>
+        <h2 id="今天小试一把Flutter环境搭建"><a href="#今天小试一把Flutter环境搭建" class="headerlink" title="今天小试一把Flutter环境搭建"></a>今天小试一把Flutter环境搭建</h2><h3 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h3><p>前面的安装步骤就不说了，太多的资料，可综合自行百度….</p>
+<p>说说我自己遇到的问题：</p>
+<h3 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤 - - -"></a>安装步骤 - - -</h3><ol>
+<li><p>安装flutter SDK; </p>
+</li>
+<li><p>flutter create <new project="" name=""></new></p>
+</li>
+<li><p>flutter doctor ( 中间会提示 flutter update-packages 更新依赖包 )</p>
+</li>
+<li><p>flutter run</p>
+</li>
+</ol>
+<h3 id="遇到的问题："><a href="#遇到的问题：" class="headerlink" title="遇到的问题："></a>遇到的问题：</h3><ol>
+<li><p>github仓库 ssh key 过期</p>
+<p><code>重新替换仓库的ssh key</code> </p>
+</li>
+<li><p>提示android SDK 未安装 （一定要安装，不然会无法执行）</p>
+<p><code>X Unable to locate Android SDK.</code></p>
+<p>方法：</p>
+<p>  找到SDK路径</p>
+<p>  AS -&gt; file -&gt; settings -&gt; System Settings -&gt; Andriod SDK 里面的 <code>Android SDK Location</code></p>
+<p>  设置环境变量： </p>
+<p>  <code>ANDROID_HOME</code> = <code>上面的Android SDK Location路径</code></p>
+</li>
+<li><p>Andriod SDK 版本错误</p>
+<p>解决方式： 在 <code>build.gradle</code> 配置里面设置电脑上已经安装的Andriod SDK版本</p>
+<pre><code>andriod: {
+    ` buildToolsVersion &quot;24.0.1&quot; `
+}
+</code></pre></li>
+</ol>
 
     </div>
 </div>
@@ -184,16 +218,16 @@
     <ul>
         
         <li class="prev">
-            <a href="/2018/06/26/博客建立第一天/">
+            <a href="/2018/09/01/基于koa2-mysql进行数据库的增删改查/">
                 <i class="cube-icon cube-prev" aria-hidden="true"></i>
-                博客建立第一天
+                基于koa2+mysql进行数据库的增删改查
             </a>
         </li>
         
         
         <li class="next">
-            <a href="/2018/06/12/css实现单行截取，多行截取/">
-                css实现单行截取，多行截取
+            <a href="/2018/07/23/生成时间数组/">
+                生成时间数组
                 <i class="cube-icon cube-next" aria-hidden="true"></i>
             </a>
         </li>

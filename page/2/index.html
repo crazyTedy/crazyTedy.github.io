@@ -10,7 +10,7 @@
     
     
     
-    <title>flatten函数 | 狂奔的泰迪熊</title>
+    <title>狂奔的泰迪熊</title>
     <!-- inject:style -->
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
@@ -156,56 +156,124 @@
     
                             <div class="cube-content">
                                 <div class="cube-left">
-                                    <div class="cube-article">
-    <h1 class="title">flatten函数</h1>
-    
-    <div class="cube-article-header">
-        <div class="cube-article-date">
-            <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
-            <!-- moment.js对象 -->
-            2018-06-15
+                                    
+<div class="cube-excerpt" id="cube-excerpt-通过原型继承创建一个新的对象（inherit函数）">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/06/12/创建继承inherit函数/">通过原型继承创建一个新的对象（inherit函数）</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-06-12
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/js/" class="cube-excerpt-tag-link">#js</a>
+                
+            </div>
         </div>
-        <div class="cube-article-tags">
-    <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
-    
-    <a href="/tags/js/">#js</a>
-    
-</div>
-    </div>
-    
-    <div class="cube-article-content cube-markdown">
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
         
-        <h3 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// shallow 是否只压缩一层数组 // strict  是否去除参数只留下数组参数 【【1,2】， 【3,4】】</span></span><br><span class="line"><span class="keyword">var</span> flatten2 = <span class="function"><span class="keyword">function</span> (<span class="params">input, shallow, strict, output</span>) </span>&#123;</span><br><span class="line">			output = output || [];</span><br><span class="line">			<span class="keyword">var</span> idx = output.length;</span><br><span class="line">			<span class="keyword">var</span> isArguments = <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123; <span class="comment">// 判断是不是函数传进来的参数 // callee arguments特有</span></span><br><span class="line">				<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">				  <span class="keyword">return</span> obj !== <span class="literal">null</span> &amp;&amp; hasProperty.call(obj, <span class="string">'callee'</span>)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, length = input.length; i &lt; length; i++) &#123;</span><br><span class="line">				<span class="keyword">var</span> value = input[i]</span><br><span class="line">				<span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value) &amp;&amp; (<span class="built_in">Array</span>.isArray(value) &amp;&amp; isArguments(value))) &#123;</span><br><span class="line">					<span class="keyword">if</span> (shallow) &#123;  <span class="comment">// 只压缩一层</span></span><br><span class="line">					  <span class="keyword">var</span> j, len = value.length;</span><br><span class="line">					  <span class="keyword">while</span> (j &lt; len) output[idx++] = value[j++];</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					  flatten2(value, shallow, strict, output); <span class="comment">// 否则就重复调用flatten函数</span></span><br><span class="line">					  idx = output.length; <span class="comment">// 当重复调函数，output数组就要扩大，这一步是要扩充数组，吧idx基数设置为output长度</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (!strict) &#123; <span class="comment">// 去除非数组元素</span></span><br><span class="line">				  output[idx++] = value</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> output</span><br><span class="line">		&#125;</span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]]) <span class="comment">// [1, 2, 3, 4, 5, 7, 0, 10]</span></span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]], <span class="literal">true</span>) <span class="comment">//   [1, 2, 3, 4, 5, [7, [0, [10]]]</span></span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]], <span class="literal">true</span>, <span class="literal">true</span>) <span class="comment">// [5, [7, [0, [10]]]</span></span><br></pre></td></tr></table></figure>
-
-    </div>
+        
+           <h3 id=""><a href="#" class="headerlink" title=""></a>
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/06/12/创建继承inherit函数/">Read More</a>
+    </footer>
 </div>
 
-<div class="cube-article-nav">
-    <ul>
+<div class="cube-excerpt" id="cube-excerpt-经典布局方式">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/06/12/经典布局方式/">经典布局方式</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-06-12
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/css/" class="cube-excerpt-tag-link">#css</a>
+                
+                <a href="/tags/HTML/" class="cube-excerpt-tag-link">#HTML</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
         
-        <li class="prev">
-            <a href="/2018/06/26/博客建立第一天/">
-                <i class="cube-icon cube-prev" aria-hidden="true"></i>
-                博客建立第一天
-            </a>
-        </li>
+        
+           <h3 id="怕自己忘记-每日记录一波："><a href="#怕自己忘记-每日记录一波：" class="headerlink" title="怕自己忘记 每日记录一波："></a>怕自己忘记 每日记录一波：</h3><p>圣杯布局<br>左边固定 右边自适应 左边高度随右边高度变化而变化</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a>
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/06/12/经典布局方式/">Read More</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-函数节流简单实现">
+    <header class="cube-excerpt-header">
+        <h1><a href="/2018/06/11/函数防抖策略简单实现/">函数节流简单实现</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2018-06-11
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/tags/js/" class="cube-excerpt-tag-link">#js</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
         
         
-        <li class="next">
-            <a href="/2018/06/12/css实现单行截取，多行截取/">
-                css实现单行截取，多行截取
-                <i class="cube-icon cube-next" aria-hidden="true"></i>
-            </a>
-        </li>
+           <p>开发环境中窗口频繁拉伸，函数重复的调用会给产品带来的不必要的性能损耗。 关键词搜索等频繁给服务端发送请求，也会带来不必要性能损耗。。。</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a>
         
-    </ul>
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/2018/06/11/函数防抖策略简单实现/">Read More</a>
+    </footer>
 </div>
 
 
-<!-- TODO 根据theme.comment的内容进行入口选择 -->
 
+<ul class="cube-pagination cube-pagination-6">
+    
+    <li class="cube-pagination-prev">
+        <a href="/">« Prev</a>
+    </li>
+    
+    
+        
+            
+            <li class="cube-pagination-index">
+                <a href="/">1</a>
+            </li>
+            
+        
+            
+            <li class="cube-pagination-index disabled">
+                <span>2</span>
+            </li>
+            
+        
+    
 
+    
+    <li class="cube-pagination-next disabled">
+        <span>Next »</span>
+    </li>
+    
+</ul>
 
+<!--其他组件后续添加-->
 
                                 </div>
                                 <div class="cube-right">

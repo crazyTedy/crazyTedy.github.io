@@ -10,7 +10,7 @@
     
     
     
-    <title>flatten函数 | 狂奔的泰迪熊</title>
+    <title>生成时间数组 | 狂奔的泰迪熊</title>
     <!-- inject:style -->
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
@@ -157,13 +157,13 @@
                             <div class="cube-content">
                                 <div class="cube-left">
                                     <div class="cube-article">
-    <h1 class="title">flatten函数</h1>
+    <h1 class="title">生成时间数组</h1>
     
     <div class="cube-article-header">
         <div class="cube-article-date">
             <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
             <!-- moment.js对象 -->
-            2018-06-15
+            2018-07-23
         </div>
         <div class="cube-article-tags">
     <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
@@ -175,8 +175,7 @@
     
     <div class="cube-article-content cube-markdown">
         
-        <h3 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// shallow 是否只压缩一层数组 // strict  是否去除参数只留下数组参数 【【1,2】， 【3,4】】</span></span><br><span class="line"><span class="keyword">var</span> flatten2 = <span class="function"><span class="keyword">function</span> (<span class="params">input, shallow, strict, output</span>) </span>&#123;</span><br><span class="line">			output = output || [];</span><br><span class="line">			<span class="keyword">var</span> idx = output.length;</span><br><span class="line">			<span class="keyword">var</span> isArguments = <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123; <span class="comment">// 判断是不是函数传进来的参数 // callee arguments特有</span></span><br><span class="line">				<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">				  <span class="keyword">return</span> obj !== <span class="literal">null</span> &amp;&amp; hasProperty.call(obj, <span class="string">'callee'</span>)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, length = input.length; i &lt; length; i++) &#123;</span><br><span class="line">				<span class="keyword">var</span> value = input[i]</span><br><span class="line">				<span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value) &amp;&amp; (<span class="built_in">Array</span>.isArray(value) &amp;&amp; isArguments(value))) &#123;</span><br><span class="line">					<span class="keyword">if</span> (shallow) &#123;  <span class="comment">// 只压缩一层</span></span><br><span class="line">					  <span class="keyword">var</span> j, len = value.length;</span><br><span class="line">					  <span class="keyword">while</span> (j &lt; len) output[idx++] = value[j++];</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					  flatten2(value, shallow, strict, output); <span class="comment">// 否则就重复调用flatten函数</span></span><br><span class="line">					  idx = output.length; <span class="comment">// 当重复调函数，output数组就要扩大，这一步是要扩充数组，吧idx基数设置为output长度</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (!strict) &#123; <span class="comment">// 去除非数组元素</span></span><br><span class="line">				  output[idx++] = value</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> output</span><br><span class="line">		&#125;</span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]]) <span class="comment">// [1, 2, 3, 4, 5, 7, 0, 10]</span></span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]], <span class="literal">true</span>) <span class="comment">//   [1, 2, 3, 4, 5, [7, [0, [10]]]</span></span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]], <span class="literal">true</span>, <span class="literal">true</span>) <span class="comment">// [5, [7, [0, [10]]]</span></span><br></pre></td></tr></table></figure>
-
+        <h3 id="输入需要生成的日期个数，生成当前日期为开始（或者末尾的）的时间数组。"><a href="#输入需要生成的日期个数，生成当前日期为开始（或者末尾的）的时间数组。" class="headerlink" title="输入需要生成的日期个数，生成当前日期为开始（或者末尾的）的时间数组。"></a>输入需要生成的日期个数，生成当前日期为开始（或者末尾的）的时间数组。</h3><h3 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getDays</span>(<span class="params">day</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>(now.getTime() - day * <span class="number">24</span> * <span class="number">3600</span> * <span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> year = date.getFullYear();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> month = date.getMonth() + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> day = date.getDate();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> year + <span class="string">'/'</span> + month + <span class="string">'/'</span> + day</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> len = <span class="keyword">this</span>.props.LineDatas.length;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> timeArr = [];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里for循环可以自定义 输出不同的日期顺序</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = len; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line"></span><br><span class="line">  timeArr.push(getDays(i));</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(timeArr);</span><br></pre></td></tr></table></figure>
     </div>
 </div>
 
@@ -184,16 +183,16 @@
     <ul>
         
         <li class="prev">
-            <a href="/2018/06/26/博客建立第一天/">
+            <a href="/2018/08/03/flutter环境安装/">
                 <i class="cube-icon cube-prev" aria-hidden="true"></i>
-                博客建立第一天
+                flutter环境安装
             </a>
         </li>
         
         
         <li class="next">
-            <a href="/2018/06/12/css实现单行截取，多行截取/">
-                css实现单行截取，多行截取
+            <a href="/2018/07/07/2018定制一下自己的学习路线/">
+                2018定制一下自己的学习路线
                 <i class="cube-icon cube-next" aria-hidden="true"></i>
             </a>
         </li>

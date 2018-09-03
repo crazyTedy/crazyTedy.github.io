@@ -10,7 +10,7 @@
     
     
     
-    <title>flatten函数 | 狂奔的泰迪熊</title>
+    <title>基于koa2+mysql进行数据库的增删改查 | 狂奔的泰迪熊</title>
     <!-- inject:style -->
     <link href="/css/style.css" rel="stylesheet" type="text/css">
     <!-- endinject -->
@@ -157,25 +157,84 @@
                             <div class="cube-content">
                                 <div class="cube-left">
                                     <div class="cube-article">
-    <h1 class="title">flatten函数</h1>
+    <h1 class="title">基于koa2+mysql进行数据库的增删改查</h1>
     
     <div class="cube-article-header">
         <div class="cube-article-date">
             <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
             <!-- moment.js对象 -->
-            2018-06-15
+            2018-09-01
         </div>
         <div class="cube-article-tags">
     <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
     
-    <a href="/tags/js/">#js</a>
+    <a href="/tags/koa2/">#koa2</a>
+    
+    <a href="/tags/mysql/">#mysql</a>
+    
+    <a href="/tags/服务端/">#服务端</a>
     
 </div>
     </div>
     
     <div class="cube-article-content cube-markdown">
         
-        <h3 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// shallow 是否只压缩一层数组 // strict  是否去除参数只留下数组参数 【【1,2】， 【3,4】】</span></span><br><span class="line"><span class="keyword">var</span> flatten2 = <span class="function"><span class="keyword">function</span> (<span class="params">input, shallow, strict, output</span>) </span>&#123;</span><br><span class="line">			output = output || [];</span><br><span class="line">			<span class="keyword">var</span> idx = output.length;</span><br><span class="line">			<span class="keyword">var</span> isArguments = <span class="function"><span class="keyword">function</span> (<span class="params">obj</span>) </span>&#123; <span class="comment">// 判断是不是函数传进来的参数 // callee arguments特有</span></span><br><span class="line">				<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">				  <span class="keyword">return</span> obj !== <span class="literal">null</span> &amp;&amp; hasProperty.call(obj, <span class="string">'callee'</span>)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, length = input.length; i &lt; length; i++) &#123;</span><br><span class="line">				<span class="keyword">var</span> value = input[i]</span><br><span class="line">				<span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(value) &amp;&amp; (<span class="built_in">Array</span>.isArray(value) &amp;&amp; isArguments(value))) &#123;</span><br><span class="line">					<span class="keyword">if</span> (shallow) &#123;  <span class="comment">// 只压缩一层</span></span><br><span class="line">					  <span class="keyword">var</span> j, len = value.length;</span><br><span class="line">					  <span class="keyword">while</span> (j &lt; len) output[idx++] = value[j++];</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					  flatten2(value, shallow, strict, output); <span class="comment">// 否则就重复调用flatten函数</span></span><br><span class="line">					  idx = output.length; <span class="comment">// 当重复调函数，output数组就要扩大，这一步是要扩充数组，吧idx基数设置为output长度</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (!strict) &#123; <span class="comment">// 去除非数组元素</span></span><br><span class="line">				  output[idx++] = value</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> output</span><br><span class="line">		&#125;</span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]]) <span class="comment">// [1, 2, 3, 4, 5, 7, 0, 10]</span></span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]], <span class="literal">true</span>) <span class="comment">//   [1, 2, 3, 4, 5, [7, [0, [10]]]</span></span><br><span class="line">flatten2([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="number">5</span>,[<span class="number">7</span>,[<span class="number">0</span>,[<span class="number">10</span>]]]]], <span class="literal">true</span>, <span class="literal">true</span>) <span class="comment">// [5, [7, [0, [10]]]</span></span><br></pre></td></tr></table></figure>
+        <p>学了一段时间的数据库操作，做一个demo练手，网上似乎也找不到这么基础的demo了。</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h3><p> ui界面： jquery</p>
+<p> server:  koa2 + koa-router + koa-bodyparse + mysql</p>
+<p> 主要功能： 对数据进行 增 、删、改、查。</p>
+<h2 id="Action-服务端篇"><a href="#Action-服务端篇" class="headerlink" title="Action (服务端篇)"></a>Action (服务端篇)</h2><pre><code>## 引入必要模块
+
+    const Koa = require(&apos;koa2&apos;); 
+    const router = require(&apos;koa-router&apos;)(); //用于设计接口
+    var mysql = require(&apos;mysql&apos;); 
+    var bodyParser = require(&apos;koa-bodyparser&apos;); // 对客户端数据进行解析
+    const app = new Koa(); // 实例化
+    app.use(bodyParser()); //使用中间件
+
+## 连接数据库
+
+    var connection = mysql.createConnection({
+        host: &apos;localhost&apos;,
+        user: &apos;root&apos;, // sql账号
+        password: &apos;123456&apos;, // sql密码
+        database: &apos;test&apos;
+    });
+
+## 接口设计
+
+    router.get(&apos;/&apos;, async (ctx, next) =&gt; { ctx.response.body = &apos;&lt;h1&gt;欢迎查询&lt;/h1&gt;&apos; })
+    router.get(&apos;/get_user_list&apos;, async (ctx, next) =&gt; {...})
+    router.put(&apos;/update_user&apos;, async (ctx, next) =&gt; {...})
+    router.delete(&apos;/delete_user&apos;, async (ctx, next) =&gt; {...})
+    router.post(&apos;/add_user&apos;, async (ctx, next) =&gt; {...})
+
+## 静态托管一个界面
+
+    app.use(require(&apos;koa-static&apos;)(__dirname));
+
+## 使用路由中间件
+
+    app.use(router.routes())
+
+## 启动服务
+    app.listen(3000, () =&gt; {
+        console.log(&apos;server is running at http://localhost:3000&apos;)
+    })
+</code></pre><p>app.js： <a href="https://github.com/crazyTedy/koa2-mysql/blob/master/app.js" target="_blank" rel="noopener">https://github.com/crazyTedy/koa2-mysql/blob/master/app.js</a></p>
+<h3 id="服务端脚本-踩坑之123事"><a href="#服务端脚本-踩坑之123事" class="headerlink" title="服务端脚本-踩坑之123事"></a>服务端脚本-踩坑之123事</h3><pre><code>1. post请求参数的获取和序列化
+
+    // 对客户端数据进行【解析】 正确获取post参数
+
+    var bodyParser = require(&apos;koa-bodyparser&apos;); 
+
+    // 获取参数 
+
+    ctx.request.body
+</code></pre><h2 id="Action-ajax篇"><a href="#Action-ajax篇" class="headerlink" title="Action (ajax篇)"></a>Action (ajax篇)</h2><p>   1.简单的ajax请求 就不赘述了<br>   2.实现了增删改查</p>
+<p>index.html： <a href="https://github.com/crazyTedy/koa2-mysql/blob/master/index.html" target="_blank" rel="noopener">https://github.com/crazyTedy/koa2-mysql/blob/master/index.html</a></p>
+<h3 id="心历路程和收获"><a href="#心历路程和收获" class="headerlink" title="心历路程和收获"></a>心历路程和收获</h3><p>   1.加深理解了后端查询数据库和设计接口的流程<br>   2.学习mysql的阶段性总结。</p>
+<h3 id="认知和不足："><a href="#认知和不足：" class="headerlink" title="认知和不足："></a>认知和不足：</h3><p>   1.数据库查询熟练度，和http知识的补充。<br>   2.寻找大一点的数据库，写一些测试性脚本，深入了解后端知识。<br>   3.数据库安全方面的知识。</p>
 
     </div>
 </div>
@@ -184,16 +243,16 @@
     <ul>
         
         <li class="prev">
-            <a href="/2018/06/26/博客建立第一天/">
+            <a href="/2018/09/03/项目中必会的git操作/">
                 <i class="cube-icon cube-prev" aria-hidden="true"></i>
-                博客建立第一天
+                项目中必会的git操作
             </a>
         </li>
         
         
         <li class="next">
-            <a href="/2018/06/12/css实现单行截取，多行截取/">
-                css实现单行截取，多行截取
+            <a href="/2018/08/03/flutter环境安装/">
+                flutter环境安装
                 <i class="cube-icon cube-next" aria-hidden="true"></i>
             </a>
         </li>
